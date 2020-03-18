@@ -6,20 +6,20 @@ export class MobileNumber extends Component<any, any> {
 	constructor(props) {
 		super(props);
 		this.state = {
-			
+
 		}
 	}
-	
+
 	componentDidMount = async () => {
-		
+		// console.log("component did mount mobile number screen");
 	}
 
 	render() {
 		return (
-			<>
-				
-			</>
-		)
+			<View style={styles.Container}>
+				<Text>Mobile Number Input Screen</Text>
+			</View>
+		);
 	}
 
 	navigateToTermsPage = async () => {
@@ -31,7 +31,6 @@ export class MobileNumber extends Component<any, any> {
 const styles = StyleSheet.create({
 	Container: {
 		flex: 1,
-		backgroundColor: '#ffffff',
 		paddingLeft: 30,
 		paddingRight: 30,
 		paddingBottom: 20,

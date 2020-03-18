@@ -4,7 +4,7 @@ import { Buttons, Helpers, Backgrounds, Formsty } from '../../styles/styles';
 import { cssFormFloatingLabel } from '../../styles/form-floating-lable';
 import helpers from '../../utils/helpers';
 import Popup from '../../components/popup/popup'
-import { newApp } from '../../Redux/App/app.actions';
+import { newApp } from '../../redux/app/app.actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -82,19 +82,20 @@ export class Permissions extends Component<any, any> {
 	requestPermissions = async () => {
 		this.setState({ showModal: false });
 		let result = await helpers.requestPermissions();
-		let permissions_given = true, never_ask_again = false;
-		for (let key in result) {
-			if (result[key] != 'granted') {
-				permissions_given = false;
-				if (result[key] == 'never_ask_again') {
-					never_ask_again = true;
-				}
-			}
-		}
-		if (permissions_given) {
+		let obj = helpers.getPermissionsStatus(result);
+		// let permissions_given = true, never_ask_again = false;
+		// for (let key in result) {
+		// 	if (result[key] != 'granted') {
+		// 		permissions_given = false;
+		// 		if (result[key] == 'never_ask_again') {
+		// 			never_ask_again = true;
+		// 		}
+		// 	}
+		// }
+		if (obj.permissions_given) {
 			this.navigateToAuth()
 		}
-		else if (never_ask_again) {
+		else if (obj.never_ask_again) {
 			this.setState({ showModal: true, showSettingOption: true })
 		}
 		else {

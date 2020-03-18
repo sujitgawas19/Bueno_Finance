@@ -11,7 +11,7 @@ export class ChecksScreen extends Component<any, any> {
     }
 
     componentWillUnmount() {
-        console.log("check screen unmounted");
+        // console.log("check screen unmounted");
     }
 
     componentDidMount = async () => {

@@ -11,7 +11,7 @@ const AuthStack = createStackNavigator(
         MobileNumber: {
             screen: MobileNumber,
             navigationOptions: {
-                headerTitle: '',
+                headerTitle: 'Test',
                 headerShown: false
             },
         },
@@ -43,7 +43,7 @@ const AuthStack = createStackNavigator(
 
 const Routes = createAppContainer(createSwitchNavigator(
     {
-        Auth: AuthStack,
+        Auth: MobileNumber,
         Checks: ChecksScreen,
         Terms: Terms,
         Permissions: Permissions

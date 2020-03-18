@@ -1,7 +1,9 @@
 import React, { Fragment, Component } from 'react'
-import { View, Text, ScrollView, TouchableOpacity, StatusBar, Dimensions, SafeAreaView, StyleSheet, Image, TouchableNativeFeedback, Permission, Modal, TouchableHighlight, BackHandler } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, StatusBar, Dimensions, SafeAreaView, StyleSheet, Image, TouchableNativeFeedback, Permission, Modal, TouchableHighlight, BackHandler, Linking } from 'react-native';
 import { Buttons, Helpers, Backgrounds, Formsty } from '../../styles/styles';
 import { cssFormFloatingLabel } from '../../styles/form-floating-lable';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 export class Popup extends Component<any, any> {
 	constructor(props) {
@@ -12,15 +14,13 @@ export class Popup extends Component<any, any> {
 	}
 
 	componentDidMount = async () => {
-		// this.setModalVisible(this.props.showModal)
-	}
-
-	setModalVisible(visible) {
-		// this.setState({ modalVisible: visible });
+		if(!this.props.app.NewApp){
+			this.props.checkPermissions();
+		}
 	}
 
 	render() {
-		let { showModal, requestPermissions, showSettingOption } = this.props;
+		let { showModal, requestPermissions, showSettingOption, openSettings } = this.props;
 		return (
 			<View style={{ marginTop: 22, backgroundColor: 'red' }}>
 				<Modal animationType="slide" transparent={false} visible={showModal}>
@@ -55,7 +55,7 @@ export class Popup extends Component<any, any> {
 								<TouchableOpacity onPress={this.closeApp}>
 									<Text style={[Buttons.PrimaryText, cssFormFloatingLabel.buttonText]}>Exit APP</Text>
 								</TouchableOpacity>
-								<TouchableOpacity onPress={requestPermissions}>
+								<TouchableOpacity onPress={this.openSettings}>
 									<Text style={[Buttons.PrimaryText, cssFormFloatingLabel.buttonText]}>Go to settings</Text>
 								</TouchableOpacity>
 							</View>
@@ -68,6 +68,11 @@ export class Popup extends Component<any, any> {
 
 	closeApp = () => {
 		BackHandler.exitApp();
+	}
+
+	openSettings = () => {
+		this.props.hideModal();
+		Linking.openSettings();
 	}
 }
 
@@ -95,5 +100,15 @@ const styles = StyleSheet.create({
 })
 
 
+const mapStateToProps = (state) => {
+    const { app, user } = state;
+    return { app, user }
+};
 
-export default Popup;
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({ }, dispatch);
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Popup);

@@ -1,25 +1,11 @@
 import { PermissionsAndroid } from 'react-native';
-let config = require('../../config.json')
+import configs from './config.js'
+
 const helpers = {
 
 	requestPermissions: async () => {
 		try {
-			let permissions_array = [
-				PermissionsAndroid.PERMISSIONS.CAMERA,
-				PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
-				PermissionsAndroid.PERMISSIONS.READ_CALL_LOG,
-				PermissionsAndroid.PERMISSIONS.READ_SMS,
-				PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE
-			]
-			// let permissions_array = JSON.parse(config.permissions);
-			// let permissions_array = [];
-			// config.permissions.forEach((permission) => {
-			// 	// permissions_array.push(permission)
-			// })
-			const result = await PermissionsAndroid.requestMultiple(
-				permissions_array
-			);
-			// console.log("check permssions ==>", result);
+			const result = await PermissionsAndroid.requestMultiple(configs.permissions_array);
 			return result;
 
 		} catch (err) {
@@ -27,6 +13,31 @@ const helpers = {
 			return err;
 		}
 	},
+
+	checkPermissions: async () => {
+		let result = true, permissions_allowed = true;
+		for (let item of configs.permissions_array) {
+			result = await PermissionsAndroid.check(item)
+			if (!result) {
+				permissions_allowed = false
+			}
+		}
+		return permissions_allowed;
+	},
+
+	getPermissionsStatus: (result) => {
+		let permissions_given = true, never_ask_again = false;
+		for (let key in result) {
+			if (result[key] != 'granted') {
+				permissions_given = false;
+				if (result[key] == 'never_ask_again') {
+					never_ask_again = true;
+				}
+			}
+		}
+
+		return { permissions_given, never_ask_again }
+	}
 
 }
 

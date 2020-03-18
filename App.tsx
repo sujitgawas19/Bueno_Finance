@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, AppState, TouchableNativeFeedback, ActivityIndicator } from 'react-native';
-
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import SplashScreen from 'react-native-splash-screen'
 import helpers from './src/utils/helpers';
@@ -9,6 +8,7 @@ import { Root } from 'native-base';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import { persistor, store } from './src/redux/store';
+import Popup from './src/components/popup/popup';
 
 declare var global: { HermesInternal: null | {} };
 
@@ -19,15 +19,16 @@ class App extends Component {
 		permissionsObject: {},
 		showLoader: true,
 		gateLifted: false,
+		showModal : false,
+		showSettingOption : false
 	}
 	componentDidMount() {
 		SplashScreen.hide();
-		// this.checkPermissions();
 		AppState.addEventListener('change', this.handleAppStateChange);
 	}
 
 	render() {
-		let { permissionsGiven, permissionsObject, showLoader } = this.state;
+		let { permissionsGiven, permissionsObject, showLoader, showModal, showSettingOption } = this.state;
 		return (
 			<Root>
 				<Provider store={store}>
@@ -39,6 +40,7 @@ class App extends Component {
 									<View style={[{ flex: 1 }]}>
 										{this.state.gateLifted && <Routes />}
 									</View>
+									<Popup showModal={showModal} requestPermissions={this.requestPermissions} showSettingOption={showSettingOption} checkPermissions={this.checkPermissions} hideModal={this.hideModal}/>
 								</ScrollView>
 							</SafeAreaView>
 						</>
@@ -53,27 +55,40 @@ class App extends Component {
 	}
 
 	handleAppStateChange = (nextAppState) => {
-		console.log('App state changed ==>', nextAppState);
-		if (nextAppState == 'active' && !this.state.permissionCheckedAtAppOpen) {
-			this.setState({ permissionCheckedAtAppOpen: true }, () => this.requestPermissions());
-		}
+		// console.log('App state changed ==>', nextAppState);
+		// if (nextAppState == 'active' && !this.state.permissionCheckedAtAppOpen) {
+		// 	this.setState({ permissionCheckedAtAppOpen: true }, () => this.requestPermissions());
+		// }
 	};
 
 	requestPermissions = async () => {
-		// let result = await helpers.requestPermissions();
-		// let permissions_given = true;
-		// for (let key in result) {
-		// 	if (result[key] != 'granted') {
-		// 		permissions_given = false
-		// 	}
-		// }
-		// console.log("result ==>", result);
-		// this.setState({ permissionsGiven: permissions_given, permissionsObject: result, showLoader: false });
+		this.setState({ showModal: false });
+		let result = await helpers.requestPermissions();
+		let obj = helpers.getPermissionsStatus(result);
+		
+		if (!obj.permissions_given && obj.never_ask_again) {
+			this.setState({ showModal: true, showSettingOption: true })
+		}
+		else if(!obj.permissions_given){
+			this.setState({ showModal: true, showSettingOption: false })
+		}
+	}
+
+	checkPermissions = async () => {
+		console.log("inside checkpermissions")
+		let permissions_allowed = await helpers.checkPermissions();
+		if(!permissions_allowed) {
+			this.setState({showModal : true})
+		}
 	}
 
 	onBeforeLift = () => {
 		this.setState({ gateLifted: true });
 	};
+
+	hideModal = () => {
+		this.setState({showModal : false})
+	}
 }
 
 const styles = StyleSheet.create({
