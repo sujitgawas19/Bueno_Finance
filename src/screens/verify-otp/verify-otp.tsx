@@ -2,7 +2,7 @@ import React, { Fragment, Component } from 'react'
 import { View, Text, ScrollView, TouchableOpacity, StatusBar, Dimensions, SafeAreaView, StyleSheet, Image, TouchableNativeFeedback, Permission } from 'react-native';
 import { Buttons, Helpers, Backgrounds, Formsty } from '../../styles/styles';
 
-export class MobileNumber extends Component<any, any> {
+export class VerifyOtp extends Component<any, any> {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -47,4 +47,4 @@ const styles = StyleSheet.create({
 
 
 
-export default MobileNumber;
+export default VerifyOtp;
