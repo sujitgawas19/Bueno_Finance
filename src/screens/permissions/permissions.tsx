@@ -11,6 +11,7 @@ import { NavigationActions, NavigationEvents } from 'react-navigation';
 import AppIntroSlider from 'react-native-app-intro-slider';
 // import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Root } from 'native-base';
+import configs from '../../utils/config.js';
 
 let WIDTH = 300;
 let HEIGHT = 300;
@@ -97,7 +98,7 @@ export class Permissions extends Component<any, any> {
 
 	requestPermissions = async () => {
 		this.setState({ showModal: false });
-		let result = await helpers.requestPermissions();
+		let result = await helpers.requestPermissions(configs.permissions_on_start);
 		let obj = helpers.getPermissionsStatus(result);
 		// let permissions_given = true, never_ask_again = false;
 		// for (let key in result) {

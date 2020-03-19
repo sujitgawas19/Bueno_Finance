@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import { persistor, store } from './src/redux/store';
 import Popup from './src/components/popup/popup';
+import configs from './src/utils/config.js'
 
 declare var global: { HermesInternal: null | {} };
 
@@ -63,7 +64,7 @@ class App extends Component {
 
 	requestPermissions = async () => {
 		this.setState({ showModal: false });
-		let result = await helpers.requestPermissions();
+		let result = await helpers.requestPermissions(configs.permissions_on_start);
 		let obj = helpers.getPermissionsStatus(result);
 
 		if (!obj.permissions_given && obj.never_ask_again) {
@@ -76,7 +77,7 @@ class App extends Component {
 
 	checkPermissions = async () => {
 		console.log("inside checkpermissions")
-		let permissions_allowed = await helpers.checkPermissions();
+		let permissions_allowed = await helpers.checkPermissions(configs.permissions_on_start);
 		if (!permissions_allowed) {
 			this.setState({ showModal: true })
 		}

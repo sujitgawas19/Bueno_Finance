@@ -3,9 +3,9 @@ import configs from './config.js'
 
 const helpers = {
 
-	requestPermissions: async () => {
+	requestPermissions: async (permssions_array) => {
 		try {
-			const result = await PermissionsAndroid.requestMultiple(configs.permissions_array);
+			const result = await PermissionsAndroid.requestMultiple(permssions_array);
 			return result;
 
 		} catch (err) {
@@ -14,9 +14,9 @@ const helpers = {
 		}
 	},
 
-	checkPermissions: async () => {
+	checkPermissions: async (permssions_array) => {
 		let result = true, permissions_allowed = true;
-		for (let item of configs.permissions_array) {
+		for (let item of permssions_array) {
 			result = await PermissionsAndroid.check(item)
 			if (!result) {
 				permissions_allowed = false
