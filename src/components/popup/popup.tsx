@@ -14,7 +14,7 @@ export class Popup extends Component<any, any> {
 	}
 
 	componentDidMount = async () => {
-		if(!this.props.app.NewApp){
+		if (!this.props.app.NewApp) {
 			this.props.checkPermissions();
 		}
 	}
@@ -22,44 +22,44 @@ export class Popup extends Component<any, any> {
 	render() {
 		let { showModal, requestPermissions, showSettingOption, openSettings } = this.props;
 		return (
-			<View style={{ marginTop: 22, backgroundColor: 'red' }}>
+			<View>
 				<Modal animationType="slide" transparent={false} visible={showModal}>
 					{
 						!showSettingOption &&
-						<>
-							<View style={{ marginTop: 22 }}>
+						<View style={{ height: '100%', padding: 40, justifyContent: 'center', alignItems: 'center' }}>
+							<View style={{ marginBottom: 20 }}>
 								<View>
-									<Text>This app needs permissions to work without problems.</Text>
+									<Text>Bueno Finance needs access to installed apps, call history, third party accounts, SMS, storage, personal information, calendar, camera, contacts, social media location and phone in accordance with our Privacy Policy, Terms of Service & Borrower Terms</Text>
 								</View>
 							</View>
 							<View style={styles.ButtonSection}>
-								<TouchableOpacity onPress={this.closeApp}>
-									<Text style={[Buttons.PrimaryText, cssFormFloatingLabel.buttonText]}>Exit APP</Text>
-								</TouchableOpacity>
 								<TouchableOpacity onPress={requestPermissions}>
-									<Text style={[Buttons.PrimaryText, cssFormFloatingLabel.buttonText]}>Yes, Grant Permissions</Text>
+									<Text style={[Buttons.PrimaryText, cssFormFloatingLabel.buttonText]}>YES, GRANT PERMISSIONS</Text>
 								</TouchableOpacity>
 							</View>
-						</>
+							<TouchableOpacity onPress={this.closeApp}>
+								<Text style={[{ textAlign: 'center', }]}>No, Exit APP</Text>
+							</TouchableOpacity>
+						</View>
 					}
 
 					{
 						showSettingOption &&
-						<>
-							<View style={{ marginTop: 22 }}>
+						<View style={{ height: '100%', padding: 40, justifyContent: 'center', alignItems: 'center' }}>
+							<View style={{ marginBottom: 20 }}>
 								<View>
 									<Text>You have denied permissions for the app. Go to settings and change the permissions</Text>
 								</View>
 							</View>
 							<View style={styles.ButtonSection}>
-								<TouchableOpacity onPress={this.closeApp}>
-									<Text style={[Buttons.PrimaryText, cssFormFloatingLabel.buttonText]}>Exit APP</Text>
-								</TouchableOpacity>
 								<TouchableOpacity onPress={this.openSettings}>
-									<Text style={[Buttons.PrimaryText, cssFormFloatingLabel.buttonText]}>Go to settings</Text>
+									<Text style={[Buttons.PrimaryText, cssFormFloatingLabel.buttonText]}>GO TO SETTINGS</Text>
 								</TouchableOpacity>
 							</View>
-						</>
+							<TouchableOpacity onPress={this.closeApp}>
+								<Text style={[{ textAlign: 'center', }]}>No, Exit APP</Text>
+							</TouchableOpacity>
+						</View>
 					}
 				</Modal>
 			</View>
@@ -101,13 +101,13 @@ const styles = StyleSheet.create({
 
 
 const mapStateToProps = (state) => {
-    const { app, user } = state;
-    return { app, user }
+	const { app, user } = state;
+	return { app, user }
 };
 
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({ }, dispatch);
+	return bindActionCreators({}, dispatch);
 };
 
 

@@ -19,8 +19,8 @@ class App extends Component {
 		permissionsObject: {},
 		showLoader: true,
 		gateLifted: false,
-		showModal : false,
-		showSettingOption : false
+		showModal: false,
+		showSettingOption: false
 	}
 	componentDidMount() {
 		SplashScreen.hide();
@@ -33,15 +33,15 @@ class App extends Component {
 			<Root>
 				<Provider store={store}>
 					<PersistGate persistor={persistor} onBeforeLift={this.onBeforeLift}>
-						<StatusBar backgroundColor="#255546" barStyle="light-content"/>
+						<StatusBar backgroundColor="#255546" barStyle="light-content" />
 						<>
 							<SafeAreaView style={styles.safeArea}>
-								<ScrollView contentInsetAdjustmentBehavior="automatic" style={styles.scrollView}>
-									<View style={[{ flex: 1 }]}>
-										{this.state.gateLifted && <Routes />}
-									</View>
-									<Popup showModal={showModal} requestPermissions={this.requestPermissions} showSettingOption={showSettingOption} checkPermissions={this.checkPermissions} hideModal={this.hideModal}/>
-								</ScrollView>
+								{/* <ScrollView contentInsetAdjustmentBehavior="automatic" style={styles.scrollView}> */}
+								<Popup showModal={showModal} requestPermissions={this.requestPermissions} showSettingOption={showSettingOption} checkPermissions={this.checkPermissions} hideModal={this.hideModal} />
+								<View style={[{ flex: 1 }]}>
+									{this.state.gateLifted && <Routes />}
+								</View>
+								{/* </ScrollView> */}
 							</SafeAreaView>
 						</>
 					</PersistGate>
@@ -65,11 +65,11 @@ class App extends Component {
 		this.setState({ showModal: false });
 		let result = await helpers.requestPermissions();
 		let obj = helpers.getPermissionsStatus(result);
-		
+
 		if (!obj.permissions_given && obj.never_ask_again) {
 			this.setState({ showModal: true, showSettingOption: true })
 		}
-		else if(!obj.permissions_given){
+		else if (!obj.permissions_given) {
 			this.setState({ showModal: true, showSettingOption: false })
 		}
 	}
@@ -77,8 +77,8 @@ class App extends Component {
 	checkPermissions = async () => {
 		console.log("inside checkpermissions")
 		let permissions_allowed = await helpers.checkPermissions();
-		if(!permissions_allowed) {
-			this.setState({showModal : true})
+		if (!permissions_allowed) {
+			this.setState({ showModal: true })
 		}
 	}
 
@@ -87,7 +87,7 @@ class App extends Component {
 	};
 
 	hideModal = () => {
-		this.setState({showModal : false})
+		this.setState({ showModal: false })
 	}
 }
 

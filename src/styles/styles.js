@@ -6,7 +6,7 @@ const DEVICE_HEIGHT = Dimensions.get('window').height;
 
 
 const Colors = {
-    primary: '#FF722F',
+    primary: '#005246',
     secondary: '#E1950B',
     darkgrey: '#3B3D4C',
     darkgrey2: '#444654', // for grey button
@@ -42,7 +42,7 @@ const Formsty = StyleSheet.create({
         borderBottomColor: Colors.red,
     },
     inputSuccess: {
-        borderBottomColor: Colors.lightBlue,
+        // borderBottomColor: Colors.lightBlue,
     },
     inputGroup: {
         backgroundColor: Colors.darkgrey,
