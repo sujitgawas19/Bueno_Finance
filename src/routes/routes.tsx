@@ -5,6 +5,7 @@ import Permissions from '../screens/permissions/permissions';
 import Terms from '../screens/terms/terms';
 import VerifyOtp from '../screens/verify-otp/verify-otp';
 import ChecksScreen from '../middleware/check-screen/check-screen';
+import IntroScreen from '../screens/intro-screen/intro-screen';
 
 const AuthStack = createStackNavigator(
     {
@@ -46,7 +47,8 @@ const Routes = createAppContainer(createSwitchNavigator(
         Auth: MobileNumber,
         Checks: ChecksScreen,
         Terms: Terms,
-        Permissions: Permissions
+        Permissions: Permissions,
+        IntroScreen: IntroScreen
     },
     {
         initialRouteName: 'Checks'

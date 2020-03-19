@@ -41,14 +41,14 @@ export class Permissions extends Component<any, any> {
 				<NavigationEvents onDidFocus={() => this.componentDidMount()} onDidBlur={() => this.componentWillUnmount()} />
 				<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : null} style={{ flex: 1 }}>
 					<ScrollView keyboardShouldPersistTaps='handled' contentContainerStyle={[Helpers.containerFluid]}>
-						<Popup showModal={showModal} requestPermissions={this.requestPermissions} showSettingOption={showSettingOption} hideModal={this.hideModal}/>
+						{/* <Popup showModal={showModal} requestPermissions={this.requestPermissions} showSettingOption={showSettingOption} hideModal={this.hideModal}/> */}
 						<AppIntroSlider
 							bottomButton
 							renderItem={this.renderItem}
 							slides={slides}
-							onDone={this.requestPermissions}
+							onDone={this.navigateToIntroScreen}
 							showSkipButton={false}
-							onSkip={this.requestPermissions}
+							onSkip={this.navigateToIntroScreen}
 							showDoneButton={false}
 							showNextButton={false}
 							skipLabel="Get Started"
@@ -59,7 +59,7 @@ export class Permissions extends Component<any, any> {
 							activeDotStyle={styles.dotActive}
 						/>
 
-						<TouchableNativeFeedback onPress={this.requestPermissions}>
+						<TouchableNativeFeedback onPress={this.navigateToIntroScreen}>
 							<View style={[Helpers.pl_3, Helpers.pr_3]}>
 								<View style={[Buttons.Primary]}>
 									<Text style={[Buttons.btnText, Buttons.PrimaryText]}>Get Started</Text>
@@ -138,6 +138,10 @@ export class Permissions extends Component<any, any> {
 			<Text style={styles.text}>{item.text}</Text>
 		</View>
 	);
+
+	navigateToIntroScreen = () => {
+		this.props.navigation.navigate('IntroScreen');
+	}
 	
 
 }
